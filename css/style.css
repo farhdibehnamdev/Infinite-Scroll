@@ -10,10 +10,14 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100%;
 }
+
 .images {
-  width: 600px;
-  height: 600px;
+  width: 700px;
+  height: 300vh;
   border: 2px solid yellowgreen;
+}
+.newImage {
+  background-color: aqua;
+  box-shadow: 5px 5px 10px 10px rgba(red, green, blue, 0.3);
 }
