@@ -1,4 +1,5 @@
-const getImage = function () {
+const imageContainer = document.querySelector(".images");
+const getImage = async function () {
   Config.AccessKey = "HGXt8lN7WnaA2chkM1MfxXkLFFHDlxeyBPOSpR2xJM8";
 
   const config = new Config("photos/random", "Get", {
@@ -7,11 +8,21 @@ const getImage = function () {
   });
   try {
     const result = config.createRequest();
-    const imageData = result.then((response) => response.json());
-    imageData.then((data) => console.log(data));
-    // console.log(imageData);
+    // const imageData = result.then((response) => response.json());
+    return (await result).json();
   } catch (error) {
     console.log(error);
   }
 };
-getImage();
+const loadNewsImage = async function () {
+  const image = await getImage();
+  const imgEl = document.createElement("img");
+  imgEl.src = image.urls.small;
+  imageContainer.appendChild(imgEl);
+};
+const observer = new IntersectionObserver((entries) => {
+  const lastImage = entries[0];
+  if (!lastImage.isIntersecting) return;
+  loadNewsImage();
+});
+loadNewsImage();
