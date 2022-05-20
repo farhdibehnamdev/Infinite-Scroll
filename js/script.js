@@ -1,10 +1,11 @@
 const imageContainer = document.querySelector(".images");
+const newImg = document.querySelectorAll(".newImage");
 const getImage = async function () {
-  Config.AccessKey = "HGXt8lN7WnaA2chkM1MfxXkLFFHDlxeyBPOSpR2xJM8";
+  Config.AccessKey = "jDGk0OkepP338y2Dc8SheBk77nQwws6ocCv1Bd9sjhY";
 
-  const config = new Config("photos/random", "Get", {
-    Authorization: Config.AccessKey,
-    "Accept-Version": "v1",
+  const config = new Config("api/breeds/image/random", "Get", {
+    // Authorization: Config.AccessKey,
+    // "Accept-Version": "v1",
   });
   try {
     const result = config.createRequest();
@@ -16,13 +17,20 @@ const getImage = async function () {
 };
 const loadNewImage = async function () {
   const image = await getImage();
-  const imgEl = document.createElement("img");
-  imgEl.src = image.urls.small;
-  imageContainer.appendChild(imgEl);
+  return image;
+  // const imgEl = document.createElement("img");
+  // imgEl.classList.add("newImage");
+  // imgEl.src = image.urls.small;
+  // imageContainer.appendChild(imgEl);
 };
 const observer = new IntersectionObserver((entries) => {
-  const lastImage = entries[0];
-  if (!lastImage.isIntersecting) return;
-  loadNewImage();
+  entries.map((entry) => {
+    if (!entry.isIntersecting) return;
+    else {
+      loadNewImage().then((x) => (entry.target.src = x.message));
+    }
+  });
 });
 loadNewImage();
+// observer.observe(imageContainer);
+newImg.forEach((img) => observer.observe(img));
