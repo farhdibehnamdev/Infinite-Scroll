@@ -5,7 +5,7 @@ class Config {
     this.headers = headers;
     this.data = data;
   }
-  #apiBase = "https://api.unsplash.com/";
+  #apiBase = "https://dog.ceo/";
   #_key;
   static set AccessKey(value) {
     return (this._key = `Client-ID ${value}`);
@@ -17,8 +17,12 @@ class Config {
   // #accessKey = "Client-ID HGXt8lN7WnaA2chkM1MfxXkLFFHDlxeyBPOSpR2xJM8";
 
   async createRequest() {
-    const options = this.#createOptions(this.method, this.headers, this.data);
-    return await fetch(this.#apiBase + this.endPoint, options);
+    try {
+      const options = this.#createOptions(this.method, this.headers, this.data);
+      return await fetch(this.#apiBase + this.endPoint, options);
+    } catch (error) {
+      console.log(error);
+    }
   }
   #createOptions(method, headers, data) {
     const options = {};
