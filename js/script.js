@@ -14,7 +14,7 @@ const getImage = async function () {
     console.log(error);
   }
 };
-const loadNewsImage = async function () {
+const loadNewImage = async function () {
   const image = await getImage();
   const imgEl = document.createElement("img");
   imgEl.src = image.urls.small;
@@ -23,6 +23,6 @@ const loadNewsImage = async function () {
 const observer = new IntersectionObserver((entries) => {
   const lastImage = entries[0];
   if (!lastImage.isIntersecting) return;
-  loadNewsImage();
+  loadNewImage();
 });
-loadNewsImage();
+loadNewImage();
