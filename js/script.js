@@ -29,17 +29,22 @@ const loadNewImage = async function () {
   const image = await getImage();
   return image;
 };
-const lastImageObserver = new IntersectionObserver((entries, observer) => {
-  const lastImage = entries[0];
-  if (!lastImage.isIntersecting) return;
-  else {
-    const image = loadNewImage();
-    image.then((img) => {
-      createImageElement(img);
-      lastImage.target.src = img.message;
-      lastImageObserver.unobserve(lastImage.target);
-      lastImageObserver.observe(document.querySelector(".newImage:last-child"));
-    });
-  }
-});
+const lastImageObserver = new IntersectionObserver(
+  (entries, observer) => {
+    const lastImage = entries[0];
+    if (!lastImage.isIntersecting) return;
+    else {
+      const image = loadNewImage();
+      image.then((img) => {
+        createImageElement(img);
+        lastImage.target.src = img.message;
+        lastImageObserver.unobserve(lastImage.target);
+        lastImageObserver.observe(
+          document.querySelector(".newImage:last-child")
+        );
+      });
+    }
+  },
+  { threshold: 0.2 }
+);
 lastImageObserver.observe(document.querySelector(".newImage:last-child"));
