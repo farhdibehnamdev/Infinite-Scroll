@@ -15,22 +15,31 @@ const getImage = async function () {
     console.log(error);
   }
 };
+
+const createImageElement = function (image) {
+  const imgEl = document.createElement("img");
+  imgEl.classList.add("newImage");
+  imgEl.src = image.message;
+  imgEl.style.height = "600px";
+  imgEl.style.width = "600px";
+  imageContainer.insertAdjacentElement("beforeend", imgEl);
+};
+
 const loadNewImage = async function () {
   const image = await getImage();
   return image;
-  // const imgEl = document.createElement("img");
-  // imgEl.classList.add("newImage");
-  // imgEl.src = image.urls.small;
-  // imageContainer.appendChild(imgEl);
 };
-const observer = new IntersectionObserver((entries) => {
-  entries.map((entry) => {
-    if (!entry.isIntersecting) return;
-    else {
-      loadNewImage().then((x) => (entry.target.src = x.message));
-    }
-  });
+const lastImageObserver = new IntersectionObserver((entries, observer) => {
+  const lastImage = entries[0];
+  if (!lastImage.isIntersecting) return;
+  else {
+    const image = loadNewImage();
+    image.then((img) => {
+      createImageElement(img);
+      lastImage.target.src = img.message;
+      lastImageObserver.unobserve(lastImage.target);
+      lastImageObserver.observe(document.querySelector(".newImage:last-child"));
+    });
+  }
 });
-loadNewImage();
-// observer.observe(imageContainer);
-newImg.forEach((img) => observer.observe(img));
+lastImageObserver.observe(document.querySelector(".newImage:last-child"));
