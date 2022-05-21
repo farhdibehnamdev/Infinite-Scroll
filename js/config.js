@@ -14,7 +14,6 @@ class Config {
   static get AccessKey() {
     return this._key;
   }
-  // #accessKey = "Client-ID HGXt8lN7WnaA2chkM1MfxXkLFFHDlxeyBPOSpR2xJM8";
 
   async createRequest() {
     try {
