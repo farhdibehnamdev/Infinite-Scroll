@@ -9,7 +9,6 @@ const getImage = async function () {
   });
   try {
     const result = config.createRequest();
-    // const imageData = result.then((response) => response.json());
     return (await result).json();
   } catch (error) {
     console.log(error);
@@ -19,7 +18,7 @@ const getImage = async function () {
 const createImageElement = function (image) {
   const imgEl = document.createElement("img");
   imgEl.classList.add("newImage");
-  imgEl.src = image.message;
+  imgEl.src = "./no-image.jpg";
   imgEl.style.height = "600px";
   imgEl.style.width = "600px";
   imageContainer.insertAdjacentElement("beforeend", imgEl);
@@ -36,15 +35,15 @@ const lastImageObserver = new IntersectionObserver(
     else {
       const image = loadNewImage();
       image.then((img) => {
-        createImageElement(img);
         lastImage.target.src = img.message;
         lastImageObserver.unobserve(lastImage.target);
         lastImageObserver.observe(
           document.querySelector(".newImage:last-child")
         );
+        createImageElement(img);
       });
     }
   },
-  { threshold: 0.2 }
+  { rootMargin: "200px" }
 );
 lastImageObserver.observe(document.querySelector(".newImage:last-child"));
