@@ -31,4 +31,16 @@ h1 {
   margin-bottom: 15px;
   border-radius: 5px;
   box-shadow: 5px 4px 10px 5px rgba(76, 76, 76, 0.3);
+  animation: fadeInAnimation ease 6s;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+}
+
+@keyframes fadeInAnimation {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
